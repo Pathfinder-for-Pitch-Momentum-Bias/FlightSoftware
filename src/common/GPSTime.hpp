@@ -3,6 +3,8 @@
 
 #include <libsbp/navigation.h>
 #include "constant_tracker.hpp"
+#include <stdio.h>
+// #include <common/debug_console.hpp>
 
 TRACKED_CONSTANT_SC(unsigned long long, NANOSECONDS_IN_WEEK, 7 * 24 * 60 * 60 * static_cast<unsigned long long>(1000000000));
 
@@ -31,9 +33,11 @@ struct gps_time_t {
     /** Copy constructor **/
     explicit gps_time_t(const unsigned long long t) {
         is_set = true;
-        wn = t / NANOSECONDS_IN_WEEK;
-        tow = (t - (wn * NANOSECONDS_IN_WEEK)) / 1000000;
-        ns = (t - (wn * NANOSECONDS_IN_WEEK)) % 1000000;
+        unsigned short weeks = t / NANOSECONDS_IN_WEEK;
+        wn = weeks % 1024;
+        // printf("Constructed gps time and wn = %hu", wn);
+        tow = (t - (weeks * NANOSECONDS_IN_WEEK)) / 1000000;
+        ns = (t - (weeks * NANOSECONDS_IN_WEEK)) % 1000000;
     }
 
     gps_time_t(const msg_gps_time_t &t) {

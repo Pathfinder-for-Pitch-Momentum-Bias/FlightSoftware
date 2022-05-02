@@ -768,7 +768,7 @@ class Serializer<gps_time_t> : public SerializerBase<gps_time_t> {
 
     Serializer()
         : SerializerBase<gps_time_t>(gps_time_t(), gps_time_t(), 1, print_size),
-          wn_sz(2000, 3000),
+          wn_sz(0, 1024),
           tow_sz(NANOSECONDS_IN_WEEK / 1'000'000),
           ns_sz(-1'000'000, 1'000'000)
     {
